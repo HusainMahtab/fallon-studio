@@ -306,7 +306,7 @@ export default function Home() {
             ease: "easeInOut",
           }}
         >
-          Created by Mahtab Hossain
+          Created by Mahtab Husain
         </motion.div>
       </footer>
     </main>
