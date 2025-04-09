@@ -17,6 +17,14 @@ interface FormErrors {
   message?: string;
 }
 
+interface Feedback {
+  _id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
+}
+
 export default function Home() {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,7 +34,7 @@ export default function Home() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [feedbacks, setFeedbacks] = useState([]);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const { theme, setTheme } = useTheme();
   const [isLoadingFeedbacks, setIsLoadingFeedbacks] = useState(false);
 
@@ -77,7 +85,7 @@ export default function Home() {
       toast.success("Your feedback has been submitted successfully!");
       setFormData({ name: "", email: "", message: "" });
       setErrors({});
-    } catch (error) {
+    } catch {
       toast.error("Failed to submit feedback. Please try again.");
     } finally {
       setIsLoading(false);
@@ -90,7 +98,7 @@ export default function Home() {
       const response = await fetch("/api/feedbacks");
       const data = await response.json();
       setFeedbacks(data);
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch feedbacks");
     } finally {
       setIsLoadingFeedbacks(false);
@@ -163,7 +171,7 @@ export default function Home() {
                   </motion.div>
                 ))
               ) : (
-                feedbacks.map((feedback: any) => (
+                feedbacks.map((feedback) => (
                   <motion.div
                     key={feedback._id}
                     initial={{ opacity: 0, x: -20 }}
@@ -175,9 +183,7 @@ export default function Home() {
                         <CardTitle>{feedback.name}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {feedback.email}
-                        </p>
+                        <p className="text-sm text-muted-foreground mb-2">{feedback.email}</p>
                         <p className="mb-2">{feedback.message}</p>
                         <p className="text-xs text-muted-foreground">
                           {new Date(feedback.createdAt).toLocaleString()}

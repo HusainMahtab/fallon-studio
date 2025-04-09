@@ -7,7 +7,7 @@ export async function GET() {
     await dbConnect();
     const feedbacks = await Feedback.find({}).sort({ createdAt: -1 });
     return NextResponse.json(feedbacks);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch feedbacks' }, { status: 500 });
   }
 } 
