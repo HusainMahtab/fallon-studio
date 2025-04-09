@@ -11,7 +11,7 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-let cached: MongooseCache = { conn: null, promise: null };
+const cached: MongooseCache = { conn: null, promise: null };
 
 async function dbConnect() {
   if (cached.conn) {
